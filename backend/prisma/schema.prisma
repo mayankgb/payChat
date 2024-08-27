@@ -1,0 +1,109 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User{
+
+  id                           String  @default(uuid())
+  name                         String?
+  userName                     String @id 
+  password                     String
+  pubKey                       String?
+  Group                        Group[]
+  sendingTransaction           Transaction[] @relation(name: "sender")
+  receiverTransaction          Transaction[] @relation(name: "receiver")
+}
+
+
+model Message {
+
+  id                 String  @id @default(uuid())
+  conversationId     String
+  conversation       Conversation @relation(fields: [conversationId],references: [id])
+  message            String
+  senderId           String
+  receiverId         String
+  amount             Int?
+  type               Type         
+  status             status       @default(NOT_DELEIVERED)
+  date               DateTime     @default(now())
+  signature          String?
+
+}
+
+
+
+model Transaction {
+
+  id                 String @id  @default(uuid())
+  amount             Int
+  signature          String
+  senderId           String
+  sender             User  @relation(name: "sender",fields: [senderId],references: [userName])
+  receiverId         String
+  receiver           User  @relation(name:"receiver", fields: [receiverId],references: [userName])
+  senderKey          String
+  receiverKey        String
+  conversationId     String
+  conversation       Conversation @relation(fields: [conversationId],references: [id])
+  date               DateTime     @default(now())
+
+}
+
+model Conversation {
+
+  id            String    @id  @default(uuid())
+  messages      Message[]
+  transaction   Transaction[]
+  user1Id       String
+  user2Id       String
+  Group         Group[]
+
+  @@unique([user1Id,user2Id])
+  @@unique([user2Id,user1Id])
+
+}
+
+
+model Group{
+
+  id                    String @id @default(uuid())
+  conversationId        String
+  conversation          Conversation @relation(fields: [conversationId],references: [id])
+  userId                String
+  user                  User @relation(fields: [userId],references: [userName])
+  
+  @@unique([conversationId,userId])
+}
+
+enum status {
+  DELEIVERED
+  NOT_DELEIVERED
+  READ
+}
+
+enum Type {
+
+  SOLANA
+  MESSAGE
+
+}
+
+enum transactionType {
+
+  DEBITED
+  CREDITED
+
+}
