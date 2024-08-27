@@ -100,24 +100,25 @@ export  function AllTransaction(){
             <AnimatePresence mode="popLayout">
             {isCredited?(
                 transactions?.sendingTransaction.length?
-                (transactions.sendingTransaction.map((value)=>(
+                (transactions.sendingTransaction.map((value,index)=>(
                     <motion.div
                      initial={{y:20}}
                      animate={{y:0, transition:{duration:0.2}}}
                      exit={{y:-20}}
+                     key={index}
                      className="flex bg-slate-400  mb-3 rounded p-2  items-end">
-                            <div className="w-[80%]">
-                                <div className="bg-red-500 w-fit py-1 px-2 rounded-xl  font-bold">
+                            <div key={index} className="w-[80%]">
+                                <div key={index} className="bg-red-500 w-fit py-1 px-2 rounded-xl  font-bold">
                                     {value.amount/LAMPORTS_PER_SOL}
                                 </div>
-                                <div className="text-neutral-700 font-bold">
+                                <div key={index} className="text-neutral-700 font-bold">
                                     <span className="font-semibold">to:</span> {value.receiverId}
                                 </div>
-                                <div className="">
+                                <div key={index} className="">
                                 <a href={`https://solscan.io/tx/${value.signature}`} target="_blank" className="text-normal font-semibold text-blue-500 underline">View Transaction</a>
                                 </div>
                             </div>
-                            <div className="text-slate-700 font-bold">
+                            <div key={index} className="text-slate-700 font-bold">
                                   {formatDate(value.date)}
                             </div>
                         </motion.div>)
@@ -129,24 +130,25 @@ export  function AllTransaction(){
                 
             ):(
                 transactions?.receiverTransaction.length?(
-                    transactions.receiverTransaction.map((value)=>(
+                    transactions.receiverTransaction.map((value,index)=>(
                         <motion.div
                         initial={{y:20}}
                         animate={{y:0, transition:{duration:0.3}}}
                         exit={{y:-20}}
+                        key={index}
                          className="flex bg-slate-400  mb-3 rounded p-2  items-end">
-                            <div className="w-[80%]">
-                                <div className="bg-green-500 w-fit py-1 px-2 rounded-2xl  font-bold">
+                            <div key={index} className="w-[80%]">
+                                <div key={index} className="bg-green-500 w-fit py-1 px-2 rounded-2xl  font-bold">
                                     {value.amount/LAMPORTS_PER_SOL}
                                 </div>
-                                <div className="text-neutral-700 font-bold">
+                                <div key={index} className="text-neutral-700 font-bold">
                                     <span className="">from:</span> {value.senderId}
                                 </div>
-                                <div className="">
+                                <div key={index} className="">
                                 <a href={`https://solscan.io/tx/${value.signature}`} target="_blank" className="text-normal font-semibold text-blue-500 underline">View Transaction</a>
                                 </div>
                             </div>
-                            <div className="text-slate-700 font-bold">
+                            <div key={index} className="text-slate-700 font-bold">
                                   {formatDate(value.date)}
                             </div>
                         </motion.div>

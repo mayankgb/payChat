@@ -30,11 +30,9 @@ export function Friend(){
             </motion.div>
         )):
         <div className="text-slate-400 text-center">
-            Try to search my userName in Search bar "mayank"
+            Try to search my userName in Search bar &quot;mayank&quot;
         </div>
         }
-
-            {/* {room.map((t,index)=><div>{t.lastMessage?.toString()}</div>)} */}
         </motion.div>
     )
 }

@@ -9,7 +9,7 @@ export default function Welcome() {
                     New here? Try searching my username
                 </div>
                 <div className="text-2xl font-medium text-gray-100">
-                    "mayank"
+                &quot;mayank&quot;
                 </div>
             </div>
         </div>

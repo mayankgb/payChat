@@ -100,7 +100,7 @@ export function SolInputBox(){
             <div>
                 <div>
                     <div>
-                    <label className="text-slate-400 font-semibold" htmlFor="publicKey">your friend's public key</label>
+                    <label className="text-slate-400 font-semibold" htmlFor="publicKey">your friend&apos;s public key</label>
                     </div>
                     <Input type="text" className="w-96 placeholder:text-slate-400 text-slate-200 rounded-xl" name="publicKey" value={rooms[selectedIndex].friendPubKey} disabled={true}></Input>
                 </div>
