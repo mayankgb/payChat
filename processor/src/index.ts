@@ -28,6 +28,10 @@ async function main(){
 
     await downloadFile()
 
+    console.log(process.env.BROKERS)
+    console.log(process.env.USERNAME)
+    console.log(process.env.PASSWORD)
+
     const kafka = new Kafka({
         clientId: 'my-app',
                 brokers: [process.env.BROKERS||""],
