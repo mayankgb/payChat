@@ -27,7 +27,7 @@ export default function RootLayout({
           router.push("/login")
           return
         }
-        const result = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}:8080/api/user/me`,{
+        const result = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/me`,{
           headers:{
             Authorization:JSON.parse(localStorage.getItem("token")||"")
           }

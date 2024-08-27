@@ -40,7 +40,7 @@ export  function AllTransaction(){
         async function getAllTransaction(){
     
             try{
-                const result = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}:8080/api/user/transaction`,{
+                const result = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/transaction`,{
                     headers:{
                         Authorization:JSON.parse(localStorage.getItem("token")||"")
                     }

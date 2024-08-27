@@ -14,7 +14,7 @@ export default function Home(){
 
     
     useEffect(()=>{
-        const socket = new WebSocket("wss://ec2-34-237-243-161.compute-1.amazonaws.com:8080")
+        const socket = new WebSocket("wss://paychat-2.onrender.com")
 
         socket.onopen = ()=>{
             console.log("connected")

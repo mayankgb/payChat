@@ -35,7 +35,7 @@ export function SignUp(){
 
 
         try{
-            const result = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}:8080/api/user/signup`,{
+            const result = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/signup`,{
                 userInput
             })
             if (result.status===200) {
