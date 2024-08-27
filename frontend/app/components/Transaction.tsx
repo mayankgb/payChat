@@ -22,6 +22,8 @@ export function Transaction() {
                                     amount={x.amount || 0}
                                     message={x.value}
                                     signature={x.signature || ""}
+                                    time={x.Time}
+                                    date={x.Date}
                                 />
                             </div>
                         )

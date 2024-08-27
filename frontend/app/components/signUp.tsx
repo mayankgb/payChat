@@ -35,12 +35,10 @@ export function SignUp(){
 
 
         try{
-            console.log("hat bc")
-            const result = await axios.post("http://localhost:8080/api/user/signup",{
+            const result = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}:8080/api/user/signup`,{
                 userInput
             })
             if (result.status===200) {
-                console.log(result.data)
                 const token = JSON.stringify(result.data.jwt)
                 toast.success("Logged in!")
                 localStorage.setItem("token",token)

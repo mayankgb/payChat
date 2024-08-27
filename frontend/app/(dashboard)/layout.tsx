@@ -19,7 +19,6 @@ export default function RootLayout({
     const network = WalletAdapterNetwork.Mainnet
 
     useEffect(() => {
-      console.log(process.env.NEXT_PUBLIC_BACKEND_URL)
       async function main(){
         try{
           const token = localStorage.getItem("token")
@@ -28,7 +27,7 @@ export default function RootLayout({
           router.push("/login")
           return
         }
-        const result = await axios.get("http://localhost:8080/api/user/me",{
+        const result = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}:8080/api/user/me`,{
           headers:{
             Authorization:JSON.parse(localStorage.getItem("token")||"")
           }

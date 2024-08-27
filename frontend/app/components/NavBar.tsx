@@ -26,7 +26,7 @@ export function NavBar(){
             </div>
         </div>
         <div className="">
-            <button onClick={()=>setIsOpen(!isOpen)} className="bg-white bg-opacity-25 p-3 rounded-full hover:bg-opacity-75">Transactions</button>
+            <button onClick={()=>setIsOpen(!isOpen)} className="bg-violet-700 font-bold text-slate-200 p-3 rounded-full hover:bg-opacity-75">Transactions</button>
         </div>
     </div>
     )

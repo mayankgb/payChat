@@ -33,7 +33,7 @@ export function Message() {
                                     {mes.Time}
                                 </div>
                             </div>
-                    ):((mes.messageType==="SOLANA"&&<div><SolanaCard message={mes.value} amount={mes.amount||0} to={mes.to} signature={mes.signature||""} /></div>)
+                    ):((mes.messageType==="SOLANA"&&<div><SolanaCard time={mes.Time} message={mes.value} amount={mes.amount||0} to={mes.to} signature={mes.signature||""} /></div>)
                     )}
                 </div>
                 

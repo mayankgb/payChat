@@ -24,11 +24,10 @@ export function Login(){
     async function handleSubmit(){
 
         try{
-            const result = await axios.post("http://localhost:8080/api/user/login",{
+            const result = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}:8080/api/user/login`,{
                 userInput
             })
             if (result.status===200) {
-                console.log(result.data)
                 const token = JSON.stringify(result.data.jwt)
                 localStorage.setItem("token",token)
                 router.push("/")
