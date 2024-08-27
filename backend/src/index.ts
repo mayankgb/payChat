@@ -11,7 +11,7 @@ import { downloadFile } from "./aws"
 const app = express()
 
 app.use(cors({
-    origin:"http://localhost:3000"
+    origin:"https://chat-pay.vercel.app/"
 }))
 app.use(express.json())
 
