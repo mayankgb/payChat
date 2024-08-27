@@ -15,6 +15,8 @@ export function Login(){
         password:""
     })
 
+    const[isLogin,setIsLogin] = useState(false)
+
     const router = useRouter()
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>)=>{
@@ -24,16 +26,19 @@ export function Login(){
     async function handleSubmit(){
 
         try{
+            setIsLogin(true)
             const result = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/login`,{
                 userInput
             })
             if (result.status===200) {
                 const token = JSON.stringify(result.data.jwt)
                 localStorage.setItem("token",token)
+                setIsLogin(false)
                 router.push("/")
             }
         }
         catch(error){
+            setIsLogin(false)
             if (axios.isAxiosError(error)) {
                 // Handle Axios-specific errors
                 if (error.response?.status === 400) {
@@ -73,7 +78,7 @@ export function Login(){
                 <Input type="password" className="placeholder:text-slate-500  focus-visible:ring-0 focus-visible:ring-offset-0 text-white bg-neutral-900 focus:border-white focus:border-2" name="password" value={userInput.password} onChange={(e)=>handleChange(e)} min={6} placeholder="type your password" required minLength={6}/>
             </div>
             <div className="">
-                <Button onClick={handleSubmit} variant="secondary" className="w-full text-center">Login</Button>
+                <Button onClick={handleSubmit} disabled={isLogin} variant="secondary" className="w-full text-center">Login</Button>
             </div>
         </div>
     )

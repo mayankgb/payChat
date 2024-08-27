@@ -31,10 +31,13 @@ export function SignUp(){
         setUserInput((prev)=>({...prev,[e.target.name]:e.target.value}))
     } 
 
+    const [isSignUp,setIsSignUp] = useState(false)
+
     async function handleSubmit(){
 
 
         try{
+            setIsSignUp(true)
             const result = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/signup`,{
                 userInput
             })
@@ -42,10 +45,12 @@ export function SignUp(){
                 const token = JSON.stringify(result.data.jwt)
                 toast.success("Logged in!")
                 localStorage.setItem("token",token)
+                setIsSignUp(false)
                 router.push("/")
             }
         }
         catch(error){
+            setIsSignUp(false)
             if (axios.isAxiosError(error)) {
                 // Handle Axios-specific errors
                 if (error.response?.status === 400) {
@@ -109,7 +114,7 @@ export function SignUp(){
             </div>
 
             <div className="">
-                <Button onClick={handleSubmit} variant="secondary" className="w-full text-center">SignUp</Button>
+                <Button disabled={isSignUp} onClick={handleSubmit} variant="secondary" className="w-full text-center">SignUp</Button>
             </div>
         </div>
     )
