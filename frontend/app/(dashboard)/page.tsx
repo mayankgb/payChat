@@ -76,7 +76,7 @@ export default function Home(){
             }if(newRooms.type==="searchUser"){
                 findUser(newRooms.userName)
             }else{
-                console.log(message.data)
+                // console.log(message.data)
             }
             
         }

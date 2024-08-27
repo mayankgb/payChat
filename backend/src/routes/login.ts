@@ -37,7 +37,7 @@ loginRouter.post("/login",async(req,res)=>{
 
     const existingUser = await prisma.user.findFirst({
         where:{
-            userName:body.username
+            userName:parsedResult.data.userName
         },
         select:{
             password:true,
