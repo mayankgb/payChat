@@ -47,10 +47,6 @@ export class RoomManager{
     }
 
 
-    // searchUser(seachName:string,userName:string,ws:WebSocket){
-    //     const existingRoom = this.rooms.filter((room)=>(room.messenger1.userName===userName)||(room.messenger2.userName===userName))
-    // }
-
   async initializeDb(){
       const users = await this.prisma.user.findMany({
             where:{},
@@ -103,9 +99,7 @@ export class RoomManager{
             }
         })
 
-        console.log("rroms")
         if (existingRooms.length) {
-            console.log(existingRooms.length)
            existingRooms.map((room)=>{
            const users = room.Group.map((x)=>{
                 const newUser:User = {

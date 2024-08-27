@@ -1,13 +1,10 @@
 "use client"
 
-import { useEffect, useState } from "react";
-import { AppBar } from "../components/AppBar";
+import { useEffect } from "react";
 import { Chat } from "../components/Chats";
-import { Sol } from "../components/Sol";
-import { Verify } from "../components/Verify";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { backend, searchUser, wss } from "@/store/atom";
-import { Data ,MESSAGETYPE, rooms} from "../lib/types";
+import { Data , rooms} from "../lib/types";
 
 export default function Home(){
 
@@ -29,13 +26,10 @@ export default function Home(){
         } 
 
         socket.onmessage = (message)=>{
-            // console.log(message.data)
 
             const newRooms = JSON.parse(message.data)
 
-            console.log(newRooms)
             if (newRooms.type==="newMessage") {
-                console.log("jubaan kesri")
                 setRooms((prevRooms) => {
                     // Find the room that corresponds to this message
                     const updatedRooms = prevRooms.map(room => {
@@ -63,8 +57,6 @@ export default function Home(){
                     
                     return updatedRooms;
                 });
-                console.log(rooms)
-
             }
             if (newRooms.type==='firstOnline') {
                 const createdRoom:rooms = {
@@ -82,7 +74,6 @@ export default function Home(){
                 setRooms((prev)=>[...prev,newRooms])
 
             }if(newRooms.type==="searchUser"){
-                console.log(newRooms)
                 findUser(newRooms.userName)
             }else{
                 console.log(message.data)
@@ -93,9 +84,6 @@ export default function Home(){
 
     return (
         <div className="h-screen ">
-            {/* <AppBar/> */}
-            {/* <Sol/> */}
-            {/* <Verify/> */}
             <Chat/>
         </div>
     )

@@ -1,12 +1,17 @@
 "use client"
 
-import {  useState } from "react"
+import {  useEffect, useState } from "react"
 import { SignUp } from "@/app/components/signUp"
 import { BackgroundBeamsWithCollision } from "@/components/ui/background-beams-with-collision"
 import { Login } from "@/app/components/Login"
+import axios from "axios"
+import { useRouter } from "next/navigation"
+import toast from "react-hot-toast"
 
 
 export default function User(){
+    
+    const router = useRouter()  
 
     const [isLogin,setIsLogin] = useState(true)
 

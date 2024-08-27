@@ -1,34 +1,76 @@
 "use client"
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-
 import '@solana/wallet-adapter-react-ui/styles.css';
 import { useEffect, useMemo } from "react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { RecoilRoot } from "recoil";
 import { useRouter } from "next/navigation";
-import {Toaster} from "react-hot-toast"
-
+import axios from "axios";
+import toast from "react-hot-toast";
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
 
-    // const router = useRouter()
+    const router = useRouter()
 
     const network = WalletAdapterNetwork.Mainnet
 
-  //   useEffect(() => {
-  //     // This code will only run on the client side
-  //     const token = localStorage.getItem("token")
+    useEffect(() => {
+      console.log(process.env.NEXT_PUBLIC_BACKEND_URL)
+      async function main(){
+        try{
+          const token = localStorage.getItem("token")
+        if (!token) {
+          localStorage.clear()
+          router.push("/login")
+          return
+        }
+        const result = await axios.get("http://localhost:8080/api/user/me",{
+          headers:{
+            Authorization:JSON.parse(localStorage.getItem("token")||"")
+          }
+        })
 
-  //     console.log(token)
-
-  //     if (!token) {
-  //         router.push("/login");
-  //     }
-  // }, [router]);
+        if (result.status===200) {
+          toast.success(result.data.message)
+          router.push("/")
+        }
+        }catch(error){
+          if (axios.isAxiosError(error)) {
+            // Handle Axios-specific errors
+            if (error.response?.status === 400) {
+              console.log("Bad Request:", error.response.data.message,error.response.data);
+              localStorage.clear()
+              toast.error(error.response.data.message,{style:{
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+              }},
+              )
+            } else if (error.response?.status === 404) {
+              console.log("Not Found:", error.response.data);
+              localStorage.clear()
+              toast.error(error.response.data.message,{style:{
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+              }},
+              )
+            } else {
+              localStorage.clear()
+              console.log("Unexpected error:", error.response?.data || error.message);
+            }
+          } else {
+            localStorage.clear()
+            console.log("An unexpected error occurred:", error);
+          }
+        }
+      }
+      main()
+  }, []);
 
     const wallets = useMemo(()=>[],[network])
 

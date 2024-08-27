@@ -1,6 +1,6 @@
 import express, { json } from "express"
 import { WebSocketServer } from "ws"
-import { loginRotuter } from "./routes/login"
+import { loginRouter } from "./routes/login"
 import jwt from "jsonwebtoken"
 import { RoomManager } from "./roomManager"
 import cors from "cors"
@@ -16,7 +16,7 @@ app.use(cors({
 app.use(express.json())
 
 
-app.use("/api/user",loginRotuter)
+app.use("/api/user",loginRouter)
 
 
 async function main(){

@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken"
 import { string, z } from "zod"
 import { RoomManager } from "../roomManager"
 
-export const loginRotuter = express.Router()
+export const loginRouter = express.Router()
 
 
 const loginInput  = z.object({
@@ -22,7 +22,7 @@ const signUpInput = z.object({
 
 const prisma = new PrismaClient()
 
-loginRotuter.post("/login",async(req,res)=>{
+loginRouter.post("/login",async(req,res)=>{
 
     const body = req.body.userInput
     console.log(body)
@@ -67,7 +67,7 @@ loginRotuter.post("/login",async(req,res)=>{
 })
 
 
-loginRotuter.post("/signup",async (req,res)=>{
+loginRouter.post("/signup",async (req,res)=>{
 
     const body = req.body.userInput
 
@@ -114,7 +114,7 @@ loginRotuter.post("/signup",async (req,res)=>{
     })
 })
 
-loginRotuter.get("/transaction",async(req,res)=>{
+loginRouter.get("/transaction",async(req,res)=>{
 
     try {
         
@@ -178,5 +178,45 @@ loginRotuter.get("/transaction",async(req,res)=>{
     }
 
     
+
+})
+
+
+loginRouter.get("/me",async(req,res)=>{
+
+    const token = req.headers.authorization
+    try{
+        console.log(token)
+        const userName =  jwt.verify(token||"","asdsad").toString()
+
+        console.log(userName)
+        const existingUser = await prisma.user.findFirst({
+            where:{
+                userName:userName
+            },
+            select:{
+                userName:true
+            }
+        })
+
+        if (existingUser) {
+            return res.status(200).json({
+                message:`Welcome ${existingUser.userName}`
+            })
+        }
+        else{
+            console.log(existingUser)
+            return res.status(404).json({
+                message:"Unauthorised accesss"
+            })
+        }
+
+    }catch(e){
+        console.log(e)
+
+        return res.status(400).json({
+            message:"unauthorised access"
+        })
+    }
 
 })

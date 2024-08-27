@@ -2,7 +2,7 @@
 
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import axios from "axios"
-import {motion} from "framer-motion"
+import {AnimatePresence, motion} from "framer-motion"
 import { useEffect, useState } from "react"
 
 interface Transaction{
@@ -99,12 +99,17 @@ export  function AllTransaction(){
                     Debited
                 </motion.div>
             </motion.div>
+            <AnimatePresence mode="popLayout">
             {isCredited?(
                 transactions?.sendingTransaction.length?
                 (transactions.sendingTransaction.map((value)=>(
-                    <div className="flex bg-slate-400  mb-3 rounded p-2  items-end">
+                    <motion.div
+                     initial={{y:20}}
+                     animate={{y:0, transition:{duration:0.2}}}
+                     exit={{y:-20}}
+                     className="flex bg-slate-400  mb-3 rounded p-2  items-end">
                             <div className="w-[80%]">
-                                <div className="bg-red-500 w-fit py-1 px-2 rounded-2xl  font-bold">
+                                <div className="bg-red-500 w-fit py-1 px-2 rounded-xl  font-bold">
                                     {value.amount/LAMPORTS_PER_SOL}
                                 </div>
                                 <div className="text-neutral-700 font-bold">
@@ -117,7 +122,7 @@ export  function AllTransaction(){
                             <div className="text-slate-700 font-bold">
                                   {formatDate(value.date)}
                             </div>
-                        </div>)
+                        </motion.div>)
                 )):(
                     <div className="text-center text-center text-slate-400 font-semibold">
                         No transaction found
@@ -127,7 +132,11 @@ export  function AllTransaction(){
             ):(
                 transactions?.receiverTransaction.length?(
                     transactions.receiverTransaction.map((value)=>(
-                        <div className="flex bg-slate-400  mb-3 rounded p-2  items-end">
+                        <motion.div
+                        initial={{y:20}}
+                        animate={{y:0, transition:{duration:0.3}}}
+                        exit={{y:-20}}
+                         className="flex bg-slate-400  mb-3 rounded p-2  items-end">
                             <div className="w-[80%]">
                                 <div className="bg-green-500 w-fit py-1 px-2 rounded-2xl  font-bold">
                                     {value.amount/LAMPORTS_PER_SOL}
@@ -142,7 +151,7 @@ export  function AllTransaction(){
                             <div className="text-slate-700 font-bold">
                                   {formatDate(value.date)}
                             </div>
-                        </div>
+                        </motion.div>
                     ))
                 ):(
                     <div className="text-center text-slate-400 font-semibold">
@@ -150,6 +159,7 @@ export  function AllTransaction(){
                     </div>
                 )
             )}
+           </AnimatePresence> 
             
         </div>
     )

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 
 import axios from "axios"
 import { useRouter } from "next/navigation"
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 
 export function Login(){
@@ -22,7 +22,6 @@ export function Login(){
     } 
 
     async function handleSubmit(){
-
 
         try{
             const result = await axios.post("http://localhost:8080/api/user/login",{

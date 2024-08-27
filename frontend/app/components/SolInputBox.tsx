@@ -35,7 +35,6 @@ export function SolInputBox(){
 
     const handleChange = async (e:ChangeEvent<HTMLInputElement>)=>{
         setDetails((prev)=>({...prev,[e.target.name]:e.target.value}))
-        console.log(rooms[selectedIndex])
     }
 
     const makePayment = async (sendIndex:number)=>{
