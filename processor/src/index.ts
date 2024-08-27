@@ -3,19 +3,8 @@ import { Kafka } from "kafkajs";
 import fs from "fs"
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { downloadFile } from "./aws";
-
-const kafka = new Kafka({
-    clientId: 'my-app',
-            brokers: [process.env.BROKERS||""],
-            ssl: {
-              ca: [fs.readFileSync('ca.pem', 'utf-8')],
-            },
-            sasl: {
-              mechanism: 'scram-sha-256',
-              username: process.env.USERNAME||"",
-              password: process.env.PASSWORD||"",
-            },
-  });
+import dotenv from 'dotenv'
+dotenv.config()
 
 interface Message{
     fromId:string,
@@ -38,6 +27,20 @@ const prisma = new PrismaClient()
 async function main(){
 
     await downloadFile()
+
+    const kafka = new Kafka({
+        clientId: 'my-app',
+                brokers: [process.env.BROKERS||""],
+                ssl: {
+                  ca: [fs.readFileSync('ca.pem', 'utf-8')],
+                },
+                sasl: {
+                  mechanism:'scram-sha-256',
+                  username: process.env.USERNAME||"",
+                  password: process.env.PASSWORD||"",
+                },
+      });
+
     const consumer = kafka.consumer({groupId:"worker"})
 
     const TOPIC_NAME = "message"
