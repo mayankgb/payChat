@@ -111,7 +111,7 @@ export function SearchUser(){
 
                 ):(
 
-               <div  className="text-center p-2 text-slate-400">search by full username if the user is not your chat</div>
+               <div  className="text-center p-2 text-slate-400">search by full username if the user is not in your chat</div>
                ))}
 
             </div>

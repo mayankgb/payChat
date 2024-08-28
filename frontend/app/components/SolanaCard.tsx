@@ -18,7 +18,7 @@ export default function SolanaCard({amount,to,signature,message,time,date}:{amou
                 </div>
                 </div>
                 <div>
-                <div>
+                <div className="text-slate-400 font-bold">
                     {time}
                 </div>
                 <div className="text-neutral-400 font-bold">

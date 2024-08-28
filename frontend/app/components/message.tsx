@@ -25,12 +25,14 @@ export function Message() {
             {room[selectedIndex].message?.map((mes, index) => (
                 <div key={index} className={`text-white p-2 w-full ${(mes.from !== room[selectedIndex]?.friend) ? "flex justify-end" : " flex"}`}>
                     {(mes.messageType==="MESSAGE")?(
-                            <div key={index} className="relative w-96 h-fit bg-customDark flex justify-between p-3 rounded-full">
-                                <div>
+                            <div key={index} className={`relative ${mes.value.length>=46?"w-96":"w-fit"} h-fit bg-customDark flex justify-between p-3 rounded-xl`}>
+                                <div className="mr-2">
                                     {typeof mes.value === 'object' ? JSON.stringify(mes.value) : mes.value}
                                 </div>
-                                <div className="text-slate-500">
-                                    {mes.Time}
+                                <div className="text-slate-500 flex items-end">
+                                    <div className="text-sm">
+                                       {mes.Time}
+                                    </div>
                                 </div>
                             </div>
                     ):((mes.messageType==="SOLANA"&&<div><SolanaCard time={mes.Time} message={mes.value} amount={mes.amount||0} to={mes.to} signature={mes.signature||""} /></div>)

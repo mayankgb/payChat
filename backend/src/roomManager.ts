@@ -17,6 +17,7 @@ export class RoomManager{
     private kafka:Kafka
     private producer:Producer
     private prisma:PrismaClient
+    private timer?:NodeJS.Timeout|null
 
     private  constructor(){
         this.rooms = []
@@ -142,7 +143,9 @@ export class RoomManager{
 
             if (existingUser) {
                 existingUser.map((room)=>{
-                    room.messenger1.userName===userName?room.messenger1.status=true:room.messenger2.status=true
+
+                    room.messenger1.userName === userName?room.messenger1.status=true : room.messenger2.status=true
+
                     userWs.send(JSON.stringify({
                         type:"firstOnline",
                         roomID:room.roomId,
@@ -152,6 +155,13 @@ export class RoomManager{
                         message:room.message,
                         status:(room.messenger1.userName!==userName)?room.messenger1.status:room.messenger2.status,
                     }))
+
+                    if (this.timer) {
+                        console.log("im here")
+                        clearTimeout(this.timer)
+                        return
+                    }
+
                     if (room.messenger1.userName!=userName) {
                         const user  = this.onlineUsers.get(room.messenger1.userName)
                         if (user) {
@@ -461,23 +471,34 @@ export class RoomManager{
                 this.onlineUsers.delete(key)
             }
         })
-        if (userName) {
-            console.log(userName)
-            this.rooms.map((value)=>{
-                if (value.messenger1.userName===userName) {
-                    this.onlineUsers.get(value.messenger2.userName)?.send(JSON.stringify({
-                        type:"status",
-                        status:false,
-                        roomId:value.roomId
-                    }))
-                }else if (value.messenger2.userName===userName) {
-                    this.onlineUsers.get(value.messenger1.userName)?.send(JSON.stringify({
-                        type:"status",
-                        status:false,
-                        roomId:value.roomId
-                    }))
-                }
-            })
-        }
+
+         this.timer = setTimeout(()=>{
+            if (userName) {
+                console.log(userName)
+                this.rooms.map((value)=>{
+    
+                    value.messenger1.userName === userName ? value.messenger1.status=false : value.messenger2.status=false
+    
+                    if (value.messenger1.userName===userName) {
+                        this.onlineUsers.get(value.messenger2.userName)?.send(JSON.stringify({
+                            type:"status",
+                            status:false,
+                            roomId:value.roomId
+                        }))
+                    }else if (value.messenger2.userName===userName) {
+                        this.onlineUsers.get(value.messenger1.userName)?.send(JSON.stringify({
+                            type:"status",
+                            status:false,
+                            roomId:value.roomId
+                        }))
+                    }
+                })
+            }
+            if (this.timer) {
+                clearTimeout(this.timer)    
+            }
+            
+            this.timer = null
+        },2000)
     }
 }

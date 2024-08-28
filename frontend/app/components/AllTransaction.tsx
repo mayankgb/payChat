@@ -104,7 +104,6 @@ export  function AllTransaction(){
                     <motion.div
                      initial={{y:20}}
                      animate={{y:0, transition:{duration:0.2}}}
-                     exit={{y:-20}}
                      key={index}
                      className="flex bg-slate-400  mb-3 rounded p-2  items-end">
                             <div key={index} className="w-[80%]">
@@ -134,7 +133,6 @@ export  function AllTransaction(){
                         <motion.div
                         initial={{y:20}}
                         animate={{y:0, transition:{duration:0.3}}}
-                        exit={{y:-20}}
                         key={index}
                          className="flex bg-slate-400  mb-3 rounded p-2  items-end">
                             <div key={index} className="w-[80%]">
@@ -154,7 +152,7 @@ export  function AllTransaction(){
                         </motion.div>
                     ))
                 ):(
-                    <div className="text-center text-slate-400 font-semibold">
+                    <div className="text-center text-sm text-slate-400 font-semibold">
                         No transaction found
                     </div>
                 )
