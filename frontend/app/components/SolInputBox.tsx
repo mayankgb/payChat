@@ -11,6 +11,7 @@ import Image from "next/image"
 import cross from "@/public/icons8-cross (1).svg"
 import solana from "@/public/solana-sol-logo.png"
 import toast from "react-hot-toast"
+import cross2 from "@/public/icons8-cross-50.png"
 
 export function SolInputBox(){
 
@@ -101,21 +102,22 @@ export function SolInputBox(){
     }
 
     return(
-        <div className="flex  items-center justify-between w-[90%] ">
+        <div className="flex items-stretch	 justify-between w-[100%]  ">
+          <div className="flex items-center justify-between w-[90%]">
             <div className="flex flex-col">
-                <label className="text-slate-400 ml-2 font-semibold" htmlFor="amount">Amount</label>
-                <Input className="font-bold text-slate-500 rounded-full"  type="number" name="amount" value={details.amount} min={0.00001} required onChange={(e)=>handleChange(e)}/>
+                <label className="text-slate-200 ml-2 font-semibold" htmlFor="amount">Amount</label>
+                <Input className="font-bold text-slate-200 rounded-full"  type="number" name="amount" value={details.amount} min={0.00001} required onChange={(e)=>handleChange(e)}/>
             </div>
             <div>
                 <div>
                     <div>
-                    <label className="text-slate-400 font-semibold" htmlFor="publicKey">your friend&apos;s public key</label>
+                    <label className="text-slate-200 font-semibold" htmlFor="publicKey">your friend&apos;s public key</label>
                     </div>
                     <Input type="text" className="w-96 placeholder:text-slate-400 text-slate-200 rounded-xl" name="publicKey" value={rooms[selectedIndex].friendPubKey} disabled={true}></Input>
                 </div>
                 <div>
                 <div>
-                    <label className="text-slate-400 font-semibold" htmlFor="Message">message</label>
+                    <label className="text-slate-200 font-semibold" htmlFor="Message">message</label>
                     </div>
                     <Input className="bg-white placeholder:text-slate-700" type="text" name="message" placeholder="message" value={details.message} onChange={(e)=>handleChange(e)}/>
                 </div>
@@ -128,8 +130,11 @@ export function SolInputBox(){
                     </div>
                 </Button>
             </div>
-            <div onClick={()=>setSol((prev)=>!prev)} className="bg-white/25 cursor-pointer w-10 h-10 flex items-center justify-center rounded-full ">
-                <Image className="h-8 w-8" src={cross} alt="cross" />
+        </div>   
+            <div onClick={()=>setSol((prev)=>!prev)} className=" flex items-start mt-2 ">
+                <div className="bg-white/25 cursor-pointer w-10 h-10 rounded-full flex items-center justify-center">
+                <Image className="h-8 w-8" src={cross2} alt="cross" />
+                </div>
             </div>
         </div>
     )
