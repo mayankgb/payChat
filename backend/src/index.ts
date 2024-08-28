@@ -6,6 +6,9 @@ import { RoomManager } from "./roomManager"
 import cors from "cors"
 import { firstOnline } from "./types/types"
 import { downloadFile } from "./aws"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 
 const app = express()
@@ -38,13 +41,11 @@ async function main(){
         ws.on('message',(data:any)=>{
             try{
                 const message = JSON.parse(data)
-                console.log(message.token)
             const parsedResult = firstOnline.safeParse(message)
             if (!parsedResult.success) {
                 return
             }
-                const userId =  jwt.verify(message.token,"asdsad")
-                console.log("done",userId)
+                const userId =  jwt.verify(message.token,process.env.JWT_SECRET||"secret")
                 if(!userId){
                     ws.send("galat hai")
                     return
@@ -54,14 +55,11 @@ async function main(){
 
                 }
                 else if (message.request==="sendMessage") {
-                    console.log(userId)
                     RoomManager.getInstance().sendMessage(userId.toString(),message.to,message.value)
                 }
                 else if (message.request==="giveMessage") {
                     RoomManager.getInstance().exisitngMessage(message.roomId,userId.toString(),message.secondUser,ws)
                 }else if (message.request==="sendSolana") {
-                    console.log(userId)
-                    console.log(message)
                     RoomManager.getInstance().sendSol(message.from,message.to,userId.toString(),message.toUserId,message.value,message.amount,message.signature,message.roomId)
                 }else if (message.request==="searchUser") {
                     if (userId.toString()===message.searchUserName) {

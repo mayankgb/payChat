@@ -45,8 +45,8 @@ export function SignUp(){
                 const token = JSON.stringify(result.data.jwt)
                 toast.success("Logged in!")
                 localStorage.setItem("token",token)
-                setIsSignUp(false)
                 router.push("/")
+                setIsSignUp(false)
             }
         }
         catch(error){

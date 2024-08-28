@@ -38,6 +38,15 @@ export function SolInputBox(){
     }
 
     const makePayment = async (sendIndex:number)=>{
+        if (details.amount<=0) {
+            toast.error("enter a valid amount")
+            return
+        }
+
+        if (details.message.trim().length<=0) {
+            toast.error("enter a valid message")
+            return
+        }
         setDisable(true)
         try{
             if (!publicKey) {
@@ -95,7 +104,7 @@ export function SolInputBox(){
         <div className="flex  items-center justify-between w-[90%] ">
             <div className="flex flex-col">
                 <label className="text-slate-400 ml-2 font-semibold" htmlFor="amount">Amount</label>
-                <Input className="font-bold text-slate-500 rounded-full"  type="number" name="amount" value={details.amount} min={0.00001} onChange={(e)=>handleChange(e)}/>
+                <Input className="font-bold text-slate-500 rounded-full"  type="number" name="amount" value={details.amount} min={0.00001} required onChange={(e)=>handleChange(e)}/>
             </div>
             <div>
                 <div>

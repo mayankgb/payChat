@@ -75,7 +75,22 @@ export default function Home(){
 
             }if(newRooms.type==="searchUser"){
                 findUser(newRooms.userName)
-            }else{
+            }if (newRooms.type==="status") {
+                setRooms((prevRoom)=>{
+
+                    const upadtedRoom = prevRoom.map((value)=>{
+                        if (value.roomID===newRooms.roomId) {
+                            return{
+                                ...value,
+                                status:newRooms.status
+                            }                            
+                        }
+                        return value
+                    })
+                    return upadtedRoom
+                })
+            }
+            else{
                 // console.log(message.data)
             }
             

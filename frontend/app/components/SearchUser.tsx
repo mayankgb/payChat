@@ -77,7 +77,7 @@ export function SearchUser(){
             </div>
 
             <div>
-               <Input className="bg-slate-400 text-gray-500 placeholder:text-gray-700" type="text" placeholder="search by username" onChange={(e)=>handleChange(e)} />
+               <Input className="bg-slate-400 text-gray-800 font-bold placeholder:text-gray-700" type="text" placeholder="search by username" onChange={(e)=>handleChange(e)} />
             </div>
             <div>
                {op.length?op.map((value,index)=>

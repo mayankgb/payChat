@@ -32,6 +32,7 @@ export function Login(){
             })
             if (result.status===200) {
                 const token = JSON.stringify(result.data.jwt)
+                toast.success("Logged in!")
                 localStorage.setItem("token",token)
                 setIsLogin(false)
                 router.push("/")

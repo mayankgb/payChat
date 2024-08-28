@@ -1,8 +1,8 @@
 import { Kafka, Producer } from "kafkajs"
 import { Message, Room, User } from "./rooms"
 import { WebSocket } from "ws"
-import { LAMPORTS_PER_SOL, PublicKey, StakeAuthorizationLayout, Transaction } from "@solana/web3.js"
-import { PrismaClient, status } from "@prisma/client"
+import { LAMPORTS_PER_SOL } from "@solana/web3.js"
+import { PrismaClient, } from "@prisma/client"
 import fs from "fs"
 import dotenv from "dotenv"
 
@@ -56,9 +56,7 @@ export class RoomManager{
             }
         })
 
-        console.log("upper")
         if (users.length) {
-            console.log(users.length)
             users.map((t)=>this.totalUsers.push({
                 userName:t.userName,
                 pubKey:t.pubKey||"",
@@ -66,7 +64,6 @@ export class RoomManager{
             }))
         }
 
-        console.log(this.totalUsers)
 
         const existingRooms = await this.prisma.conversation.findMany({
             where:{},
@@ -139,7 +136,7 @@ export class RoomManager{
         }
         
         const user = this.totalUsers.find((usr)=>usr.userName===userName)
-        console.log(this.totalUsers)
+
         if (user) {
             const existingUser = this.rooms.filter((room)=>(room.messenger1.userName===userName)||(room.messenger2.userName===userName))
 
@@ -178,15 +175,15 @@ export class RoomManager{
                 return
             }   
         }else{  
-            console.log(this.totalUsers)
+            
         }
     }
 
     private formatTime(date:Date):string{
 
-        const formattedDate  = new Date(date).toLocaleDateString('en-US',{
+        const formattedDate  = new Date(date).toLocaleDateString('en-GB',{
             day:'numeric',
-            month:"narrow",
+            month:"long",
             year:"numeric",
         })
 
@@ -194,6 +191,7 @@ export class RoomManager{
             hour: '2-digit',
             minute: '2-digit',
             hour12: false, 
+            timeZone: 'Asia/Kolkata'
           });
 
           return `${formattedTime}, ${formattedDate}`
@@ -218,10 +216,8 @@ export class RoomManager{
 
         const existingRoom = this.rooms.find((room)=>
             ((room.messenger1.userName===from)&&(room.messenger2.userName===to))||((room.messenger1.userName===to)&&(room.messenger2.userName===from)))
-        
-        console.log(existingRoom)
+
         if (existingRoom) {
-            console.log("double")
             const user = this.onlineUsers.get(to)
 
             const now = new Date()
@@ -265,7 +261,6 @@ export class RoomManager{
             
 
         }else{
-            console.log("asdasdasdaw")
           const newRoom = await this.createRoom(from,to)
           const sender = this.onlineUsers.get(from)?.send(JSON.stringify({
             type:"newRoom",
@@ -459,10 +454,30 @@ export class RoomManager{
     }
 
     offline(ws:WebSocket){
+        let userName:string =""
          this.onlineUsers.forEach((value,key)=>{
             if (value===ws) {
+                userName = key
                 this.onlineUsers.delete(key)
             }
         })
+        if (userName) {
+            console.log(userName)
+            this.rooms.map((value)=>{
+                if (value.messenger1.userName===userName) {
+                    this.onlineUsers.get(value.messenger2.userName)?.send(JSON.stringify({
+                        type:"status",
+                        status:false,
+                        roomId:value.roomId
+                    }))
+                }else if (value.messenger2.userName===userName) {
+                    this.onlineUsers.get(value.messenger1.userName)?.send(JSON.stringify({
+                        type:"status",
+                        status:false,
+                        roomId:value.roomId
+                    }))
+                }
+            })
+        }
     }
 }

@@ -3,6 +3,9 @@ import express from "express"
 import jwt from "jsonwebtoken"
 import { string, z } from "zod"
 import { RoomManager } from "../roomManager"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 export const loginRouter = express.Router()
 
@@ -25,7 +28,6 @@ const prisma = new PrismaClient()
 loginRouter.post("/login",async(req,res)=>{
 
     const body = req.body.userInput
-    console.log(body)
     const parsedResult = loginInput.safeParse(body)
      
     if (!parsedResult.success) {
@@ -58,7 +60,7 @@ loginRouter.post("/login",async(req,res)=>{
         })
     }
 
-    const token = jwt.sign(existingUser.userName,"asdsad")
+    const token = jwt.sign(existingUser.userName,process.env.JWT_SECRET||"secret")
 
     return res.status(200).json({
         jwt:token
@@ -101,7 +103,7 @@ loginRouter.post("/signup",async (req,res)=>{
         }
     })
 
-    const token = jwt.sign(newUser.userName,"asdsad")
+    const token = jwt.sign(newUser.userName,process.env.JWT_SECRET||"secret")
 
     RoomManager.getInstance().totalUsers.push({
         userName:newUser.userName,
@@ -126,7 +128,7 @@ loginRouter.get("/transaction",async(req,res)=>{
         })
     }
 
-    const userName:string = jwt.verify(token||"","asdsad").toString()
+    const userName:string = jwt.verify(token||"",process.env.JWT_SECRET||"secret").toString()
 
     const transaction = await prisma.user.findFirst({
         where:{
@@ -186,10 +188,8 @@ loginRouter.get("/me",async(req,res)=>{
 
     const token = req.headers.authorization
     try{
-        console.log(token)
-        const userName =  jwt.verify(token||"","asdsad").toString()
+        const userName =  jwt.verify(token||"",process.env.JWT_SECRET||"secret").toString()
 
-        console.log(userName)
         const existingUser = await prisma.user.findFirst({
             where:{
                 userName:userName
@@ -205,7 +205,6 @@ loginRouter.get("/me",async(req,res)=>{
             })
         }
         else{
-            console.log(existingUser)
             return res.status(404).json({
                 message:"Unauthorised accesss"
             })
@@ -219,4 +218,10 @@ loginRouter.get("/me",async(req,res)=>{
         })
     }
 
+})
+
+loginRouter.get("/ping",async(req,res)=>{
+    return res.json({
+        messsage:"done"
+    })
 })

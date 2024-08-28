@@ -18,10 +18,12 @@ export default function SolanaCard({amount,to,signature,message,time,date}:{amou
                 </div>
                 </div>
                 <div>
-                    {date}
+                <div>
+                    {time}
                 </div>
                 <div className="text-neutral-400 font-bold">
-                    {time}
+                    {date}
+                </div>
                 </div>
             </div>
         </div>
