@@ -1,0 +1,1 @@
+This is a chat application that allows you to chat and send money to each other using a Solana wallet. The app has a feature where you can track all transactions separately for each friend. Each friend has a dedicated column that shows all transactions between you and them.
