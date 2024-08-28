@@ -49,6 +49,7 @@ export default function RootLayout({
                 color: '#fff',
               }},
               )
+              router.push("/login")
             } else if (error.response?.status === 404) {
               console.log("Not Found:", error.response.data);
               localStorage.clear()
@@ -58,12 +59,15 @@ export default function RootLayout({
                 color: '#fff',
               }},
               )
+              router.push("/login")
             } else {
               localStorage.clear()
+              router.push("/login")
               console.log("Unexpected error:", error.response?.data || error.message);
             }
           } else {
             localStorage.clear()
+            router.push("/login")
             console.log("An unexpected error occurred:", error);
           }
         }
