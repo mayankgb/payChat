@@ -5,6 +5,7 @@ import { Chat } from "../components/Chats";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { backend, searchUser, wss } from "@/store/atom";
 import { Data , rooms} from "../lib/types";
+import toast from "react-hot-toast";
 
 export default function Home(){
 
@@ -14,6 +15,11 @@ export default function Home(){
 
     
     useEffect(()=>{
+        if (!localStorage.getItem("token")) {
+            toast.error("please login or Signup")
+            return
+        }
+
         const socket = new WebSocket("wss://paychat-2.onrender.com")
 
         socket.onopen = ()=>{
