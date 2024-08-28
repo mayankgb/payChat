@@ -29,7 +29,7 @@ export function SearchIcon(){
              initial={{scale:0, transformOrigin:"left"}}
              animate={{scale:1 , transition:{duration:0.2}}}
              exit={{scale:0}}
-             className="absolute bg-white rounded-2xl w-fit left-full w-20 text-center top-0 p-1 font-semibold">search</motion.div>}
+             className="absolute bg-white rounded-2xl  left-full w-20 text-center top-0 p-1 font-semibold">search</motion.div>}
              </AnimatePresence>
         </div>
     )
