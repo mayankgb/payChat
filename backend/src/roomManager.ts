@@ -13,7 +13,7 @@ export class RoomManager{
     private static instance:RoomManager
     private rooms:Room[]
     totalUsers:User[]
-    private onlineUsers:Map<string,WebSocket>
+    onlineUsers:Map<string,WebSocket>
     private kafka:Kafka
     private producer:Producer
     private prisma:PrismaClient

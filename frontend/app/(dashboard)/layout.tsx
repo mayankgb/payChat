@@ -81,7 +81,7 @@ export default function RootLayout({
     const devnet = "https://api.devnet.solana.com"
 
   return (
-    <ConnectionProvider endpoint={devnet}>
+    <ConnectionProvider endpoint={endPoint}>
         <WalletProvider wallets={wallets} autoConnect>
           <WalletModalProvider>
                <RecoilRoot>
