@@ -45,10 +45,16 @@ export function SolInputBox(){
     }
 
     const makePayment = async (sendIndex:number)=>{
-        if (!publicKey) {
-            return
-        }
+            if (!publicKey) {
+                return
+            }
+            
             const balance = await getBalance(publicKey)
+
+            if (details.amount<=0) {
+                toast.error("enter a valid amount")
+                return
+            }
             if (details.amount>balance) {
                 console.log(balance)
                 toast.error("you don't have enough balance")
