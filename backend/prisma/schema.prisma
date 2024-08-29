@@ -20,7 +20,7 @@ model User{
   name                         String?
   userName                     String @id 
   password                     String
-  pubKey                       String?
+  pubKey                       String @unique
   Group                        Group[]
   sendingTransaction           Transaction[] @relation(name: "sender")
   receiverTransaction          Transaction[] @relation(name: "receiver")

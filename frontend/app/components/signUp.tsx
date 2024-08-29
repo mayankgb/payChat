@@ -15,8 +15,13 @@ export function SignUp(){
         pubKey:""
     })
     
+    const [error,setError] = useState({
+        userName:true,
+        password:true
+    }) 
+    
+    const [isSignUp,setIsSignUp] = useState(false)
     const router = useRouter()
-
     const {publicKey} = useWallet()
 
     useEffect(() => {
@@ -28,13 +33,29 @@ export function SignUp(){
       }, [publicKey]);
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>)=>{
-        setUserInput((prev)=>({...prev,[e.target.name]:e.target.value}))
-    } 
+        const {name , value } = e.target
 
-    const [isSignUp,setIsSignUp] = useState(false)
+        setUserInput((prev)=>({...prev,[e.target.name]:e.target.value}))
+
+        if (name === "userName" && value.length < 3) {
+            setError((prev)=>({...prev, [name]: true}))
+            
+        }else if (name === "password" && value.length <6) {
+            setError((prev)=>({...prev,[name]: true}))
+            
+        }else{
+            setError((prev)=>({...prev , [name]: false }))
+            
+        }
+    } 
 
     async function handleSubmit(){
 
+        if (error.password && error.userName) {
+            console.log(error)
+            toast.error("invalid inputs")
+            return
+        }
 
         try{
             setIsSignUp(true)
@@ -89,19 +110,24 @@ export function SignUp(){
                    <label className="text-white " htmlFor="userName">UserName</label>
                 </div> 
                 <Input className="placeholder:text-slate-500 focus-visible:ring-0 focus-visible:ring-offset-0 bg-neutral-900 focus:border-white focus:border-2 text-white " type="text" name="userName" value={userInput.userName} onChange={(e)=>handleChange(e)} min={3} required placeholder="jhon9090" />
+                <div className={`text-sm font-bold ${error.userName?"text-red-400":"text-slate-400"} `}>min 3 characters and should be unique</div>
             </div>
             <div>
-                <div className="mb-2">
+                <div className="mb-1">
                 <label className="text-white " htmlFor="password">Password</label>
                 </div>
-                <Input type="password" className="placeholder:text-slate-500  focus-visible:ring-0 focus-visible:ring-offset-0 text-white bg-neutral-900 focus:border-white focus:border-2" name="password" value={userInput.password} onChange={(e)=>handleChange(e)} min={6} placeholder="type your password" required minLength={6}/>
+                <Input type="password" className="placeholder:text-slate-500  focus-visible:ring-0 focus-visible:ring-offset-0 text-white bg-neutral-900 focus:border-white focus:border-2" name="password" value={userInput.password} onChange={(e)=>handleChange(e)} min={6} placeholder="Type your password" required minLength={6}/>
+                <div className={`text-sm font-bold ${error.password?"text-red-400":"text-slate-400"} `}>min length 6</div>
             </div>
             <div className=" border-2 rounded-lg p-2 flex flex-col items-center mt-2 mb-2 border-slate-700 border-dashed">
                 <div className="w-full ">
                     <div className="mb-2">
                        <label className="text-white" htmlFor="pubKey">PublicKey</label>
                     </div>
+
                     <Input className=" placeholder:text-slate-500  text-white focus-visible:ring-0 focus-visible:ring-offset-0 bg-neutral-900 focus:border-white focus:border-2"  type="text" name="pubKey" value={userInput.pubKey} onChange={(e)=>handleChange(e)} placeholder="enter pub key" />
+                    <div className="text-sm font-bold text-black mt-2 rounded-xl bg-yellow-400 w-fit px-2">we are only storing your public Key</div>
+
                 </div>
                 <div className="flex items-center my-4 w-[90%]">
                     <hr className="flex-grow border-t border-gray-700" />

@@ -12,15 +12,15 @@ export const loginRouter = express.Router()
 
 const loginInput  = z.object({
     userName:z.string().min(3,{message:"userId should present"}),
-    password:z.string().min(6).max(8),
+    password:z.string().min(6),
 })
 
 
 const signUpInput = z.object({
     userName:z.string().min(3,{message:"userId should present"}),
-    password:z.string().min(6).max(8),
+    password:z.string().min(6),
     name:z.string().optional(),
-    pubKey:z.string(),
+    pubKey:z.string().min(44).max(44),
 })
 
 const prisma = new PrismaClient()
@@ -91,10 +91,18 @@ loginRouter.post("/signup",async (req,res)=>{
     const existingUserName = await prisma.user.findFirst({
         where:{
             userName:parsedResult.data.userName
+        },
+        select:{
+            pubKey:true
         }
     })
 
     if (existingUserName) {
+        if (existingUserName.pubKey === parsedResult.data.pubKey) {
+           return res.json(400).json({
+            message:"user already exists with this publicKey"
+           })
+        }
         return res.status(400).json({
             message:"userName already exists! please try another username "
         })
