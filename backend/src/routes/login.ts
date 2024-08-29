@@ -206,11 +206,6 @@ loginRouter.get("/me",async(req,res)=>{
         })
 
         if (existingUser) {
-            if (RoomManager.getInstance().onlineUsers.has(existingUser.userName)) {   
-                return res.status(400).json({
-                    message:"you are logged in another place"
-                })
-            }
             return res.status(200).json({
                 message:`Welcome ${existingUser.userName}`
             })
