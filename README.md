@@ -10,7 +10,7 @@ This is a chat application that allows you to chat and send money to each other 
 ![Screenshot 2024-08-29 175807](https://github.com/user-attachments/assets/6fb3523d-581d-45fe-8182-766f37ed3e62)
 
 💫If the particular user is not in your chat you can search your friend by typing the full username of your friend so that nobody can randomly message you and all usernames are unique
-![Screenshot 2024-08-28 000549](https://github.com/user-attachments/assets/3ba50a86-080b-4aa7-874f-91cfb81f4c0a)
+![Screenshot 2024-08-29 180229](https://github.com/user-attachments/assets/cc822bbc-cb33-4578-85f4-181239f730e9)
 
 Technology Used
 solana wallet adapter
