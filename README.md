@@ -12,3 +12,18 @@ This is a chat application that allows you to chat and send money to each other 
 💫If the particular user is not in your chat you can search your friend by typing the full username of your friend so that nobody can randomly message you and all usernames are unique
 ![Screenshot 2024-08-28 000549](https://github.com/user-attachments/assets/c35c4f0e-c509-4b61-88e5-0f21db47f843)
 
+Technology Used
+solana wallet adapter
+1.kafka for event streaming
+2.aws
+3.nodejs
+4.Typescrpt
+5.Nextjs
+6.prisma
+7.postgres
+8.express
+9.websocket
+10.jwt,zod
+
+
+
