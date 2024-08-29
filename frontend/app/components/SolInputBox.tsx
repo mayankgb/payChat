@@ -27,6 +27,12 @@ export function SolInputBox(){
     const userSocket  = useRecoilValue(wss)
     const [isDisable,setDisable] = useState(false)
 
+
+    const getBalance = async (key:PublicKey):Promise<number>=>{
+        const accountinfo = await connection.getBalance(key)
+        return accountinfo/LAMPORTS_PER_SOL
+    }
+
     
     const [details, setDetails] = useState({
         amount:0,
@@ -39,10 +45,15 @@ export function SolInputBox(){
     }
 
     const makePayment = async (sendIndex:number)=>{
-        if (details.amount<=0) {
-            toast.error("enter a valid amount")
+        if (!publicKey) {
             return
         }
+            const balance = await getBalance(publicKey)
+            if (details.amount>balance) {
+                console.log(balance)
+                toast.error("you don't have enough balance")
+                 return   
+            }
 
         if (details.message.trim().length<=0) {
             toast.error("enter a valid message")
@@ -50,10 +61,6 @@ export function SolInputBox(){
         }
         setDisable(true)
         try{
-            if (!publicKey) {
-                return
-            }
-            
             const friendKey = rooms[sendIndex].friendPubKey
             const transaction = new Transaction().add(
                 SystemProgram.transfer({
