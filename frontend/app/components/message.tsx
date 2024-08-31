@@ -21,7 +21,7 @@ export function Message() {
     }
 
     return (
-        <div className="flex-1 h-[90%] py-4 overflow-auto" ref={messageContainerRef}>
+        <div className="flex-1 h-[90%] py-4 overflow-auto scrollbar-custom" ref={messageContainerRef}>
             {room[selectedIndex].message?.map((mes, index) => (
                 <div key={index} className={`text-white p-2 w-full ${(mes.from !== room[selectedIndex]?.friend) ? "flex justify-end" : " flex"}`}>
                     {(mes.messageType==="MESSAGE")?(

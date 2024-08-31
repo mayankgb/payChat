@@ -1,22 +1,29 @@
 import { backend, index } from "@/store/atom";
 import { useRecoilValue } from "recoil";
 import SolanaCard from "./SolanaCard";
-import {motion} from "framer-motion"
+import { motion } from "framer-motion";
 
 export function Transaction() {
     const selectedIndex = useRecoilValue(index);
     const room = useRecoilValue(backend);
 
     return (
-        <motion.div layout className="bg-gray-900 text-gray-100 h-full overflow-auto w-full sm:w-3/12 p-4 border-l border-gray-700">
-            <h2 className="text-xl font-semibold mb-4">Recent Transactions</h2>
+        <motion.div 
+            layout 
+            className="bg-[#181824] text-gray-200 h-full overflow-auto w-full sm:w-1/3 p-4 border-l border-[#2a2a37] shadow-lg scrollbar-custom"
+        >
+            <h2 className="text-2xl font-semibold mb-4">Recent Transactions</h2>
             <div className="space-y-4">
-                 
-                {
-                (room[selectedIndex]?.message?.filter((y)=>y.messageType==="SOLANA")?.length)||0 > 0 ? (
+                {(room[selectedIndex]?.message?.filter((y) => y.messageType === "SOLANA")?.length || 0) > 0 ? (
                     room[selectedIndex].message?.slice().reverse().map((x, index) => (
                         x.messageType === "SOLANA" && (
-                            <div key={index} className="  rounded-lg shadow-md hover:shadow-lg w-full transition-shadow duration-300">
+                            <motion.div 
+                                key={index} 
+                                className="rounded-lg overflow-hidden"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, ease: "easeOut" }}
+                            >
                                 <SolanaCard
                                     to={x.to}
                                     amount={x.amount || 0}
@@ -25,7 +32,7 @@ export function Transaction() {
                                     time={x.Time}
                                     date={x.Date}
                                 />
-                            </div>
+                            </motion.div>
                         )
                     ))
                 ) : (
