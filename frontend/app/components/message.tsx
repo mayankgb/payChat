@@ -35,7 +35,7 @@ export function Message() {
                                     </div>
                                 </div>
                             </div>
-                    ):((mes.messageType==="SOLANA"&&<div><SolanaCard time={mes.Time} message={mes.value} amount={mes.amount||0} to={mes.to} signature={mes.signature||""} /></div>)
+                    ):((mes.messageType==="SOLANA"&&<div><SolanaCard isSentByme={mes.from === room[selectedIndex]?.friend} time={mes.Time} message={mes.value} amount={mes.amount||0} to={mes.to} signature={mes.signature||""} /></div>)
                     )}
                 </div>
                 

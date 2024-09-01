@@ -8,6 +8,7 @@ export default function SolanaCard({
   message,
   time,
   date,
+  isSentByme
 }: {
   amount: number;
   to: string;
@@ -15,6 +16,7 @@ export default function SolanaCard({
   message: string;
   time: string;
   date?: string;
+  isSentByme:boolean
 }) {
   return (
     <div className="relative bg-[#1e1e2e] rounded-xl shadow-lg p-6 w-80 mx-auto transform transition-transform duration-300 hover:shadow-2xl">
@@ -23,7 +25,7 @@ export default function SolanaCard({
         <div className="flex items-center space-x-4">
           <Image src={solanaPng} alt="Solana" className="w-10 h-10" />
           <div className="flex flex-col">
-            <p className="text-2xl text-[#00ffa3] font-semibold">◎ {amount} SOL</p>
+            <p className={`text-2xl ${isSentByme?"text-[#00ffa3]":"text-red-400"} font-semibold`}>◎ {amount} SOL</p>
             <p className="text-sm text-gray-400">Sent to @{to}</p>
           </div>
         </div>
