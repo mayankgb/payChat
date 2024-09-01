@@ -31,6 +31,7 @@ export function Transaction() {
                                     signature={x.signature || ""}
                                     time={x.Time}
                                     date={x.Date}
+                                    isSentByme={x.from === room[selectedIndex]?.friend}
                                 />
                             </motion.div>
                         )
