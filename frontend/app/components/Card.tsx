@@ -6,7 +6,7 @@ import {AnimatePresence, motion} from "framer-motion"
 
 export function Card({data}:{data:rooms}){
 
-    const message = "message are end-to-end encrypted no one even whatsapp can't read"
+    const message = "Start conversation by saying hi"
 
     return(
         <div className="px-4 h-16 border-b-[1px] border-slate-500 ">
