@@ -12,9 +12,15 @@ export function Friend(){
     return(
         <motion.div
          className=" bg-customDark w-3/12	overflow-auto">
-            <div className="font-bold text-3xl text-white py-3  px-4">
-                Chats
+           <div className="flex items-center ">
+                <div className="font-bold text-3xl text-white rounded-lg py-2 px-4 shadow-lg">
+                    Chats
+                </div>
+                <div className="bg-green-500/75 backdrop-blur-md text-white font-semibold rounded-full px-3 py-1 shadow-sm border border-blue-300 hover:bg-blue-600 transition-all duration-200 ease-in-out">
+                    Devnet
+                </div>
             </div>
+
             {room.length?(room?.map((user,index)=>
             <motion.div
                 key={index}
