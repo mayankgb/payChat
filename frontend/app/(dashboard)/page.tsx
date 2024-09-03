@@ -20,7 +20,7 @@ export default function Home(){
             return
         }
 
-        const socket = new WebSocket("wss://localhost:8080")
+        const socket = new WebSocket("wss://paychat-2.onrender.com")
 
         socket.onopen = ()=>{
             console.log("connected")
