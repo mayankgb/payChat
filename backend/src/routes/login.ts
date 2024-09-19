@@ -204,18 +204,9 @@ loginRouter.get("/me",async(req,res)=>{
     try{
         const userName =  jwt.verify(token||"",process.env.JWT_SECRET||"secret").toString()
 
-        const existingUser = await prisma.user.findFirst({
-            where:{
-                userName:userName
-            },
-            select:{
-                userName:true
-            }
-        })
-
-        if (existingUser) {
+        if (userName) {
             return res.status(200).json({
-                message:`Welcome ${existingUser.userName}`
+                message:`Welcome ${userName}`
             })
         }
         else{

@@ -23,8 +23,6 @@ app.use("/api/user",loginRouter)
 
 
 async function main(){
-
-    await downloadFile()
     
     await RoomManager.getInstance().initializeDb()
 

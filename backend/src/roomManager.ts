@@ -3,6 +3,7 @@ import { Message, Room, User } from "./rooms"
 import { WebSocket } from "ws"
 import { LAMPORTS_PER_SOL } from "@solana/web3.js"
 import { PrismaClient, } from "@prisma/client"
+import { Redis } from "ioredis"
 import fs from "fs"
 import dotenv from "dotenv"
 
@@ -14,27 +15,19 @@ export class RoomManager{
     private rooms:Room[]
     totalUsers:User[]
     onlineUsers:Map<string,WebSocket>
-    private kafka:Kafka
-    private producer:Producer
+    private redis:Redis
     private prisma:PrismaClient
 
     private  constructor(){
         this.rooms = []
         this.totalUsers = []
         this.onlineUsers= new Map()
-         this.kafka = new Kafka({
-            clientId: 'my-app',
-            brokers: [process.env.BROKERS||""],
-            ssl: {
-              ca: [fs.readFileSync('ca.pem', 'utf-8')],
-            },
-            sasl: {
-              mechanism: 'scram-sha-256',
-              username: process.env.USERNAME||"",
-              password: process.env.PASSWORD||"",
-            },
-          });
-        this.producer = this.kafka.producer()
+        this.redis = new Redis({
+            host:process.env.BROKERS,
+            password:process.env.PASSWORD,
+            port:15268,
+            db:0
+        })
         this.prisma = new PrismaClient()
     }
 
@@ -389,42 +382,19 @@ export class RoomManager{
 
 
     async sendToDb(from:string,to:string,value:string,roomId:string){
-
-        await this.producer.connect()
-
-            this.producer.send({
-                topic:'message',
-                messages:[{
-                    value:JSON.stringify({
-                        type:"newMessage",
-                        from,
-                        to,
-                        value,
-                        roomId
-                    })
-                }]
-            })
+        
+        await this.redis.xadd(
+            'messageStream', // The name of the Redis Stream
+            '*',            // Use '*' to let Redis generate a unique ID
+            'type', 'newMessage',
+            'from', from,
+            'to', to,
+            'value', value,
+            'roomId', roomId
+        );
     }
 
     async sendSol(from:string , to:string, fromUserId:string,toUserId:string,message:string ,amount:number,signature:string,roomId:string){
-        await this.producer.connect()
-        this.producer.send({
-            topic:"message",
-            messages:[{
-                value:JSON.stringify({
-                    type:"sendSolana",
-                    from,
-                    to,
-                    fromUserId,
-                    toUserId,
-                    amount,
-                    signature,
-                    roomId,
-                    value:message
-                })
-            }]
-        })
-
         const now  = new Date()
 
         const newMessage:Message = {
@@ -456,6 +426,20 @@ export class RoomManager{
         if (existingRoom) {
             existingRoom.message.push(newMessage)
         }
+
+        await this.redis.xadd(
+            'messageStream',   // Name of the Redis Stream
+            '*',               // Use '*' to let Redis generate an ID automatically
+            'type', 'sendSolana',
+            'from', from,
+            'to', to,
+            'fromUserId', fromUserId,
+            'toUserId', toUserId,
+            'amount', amount,
+            'signature', signature,
+            'roomId', roomId,
+            'value', message
+        );
     }
 
     offline(ws:WebSocket){

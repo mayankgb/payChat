@@ -29,11 +29,13 @@ export default function RootLayout({
       <body  className={cn(
           "bg-background font-sans antialiased",
           fontSans.variable
-        )}><Toaster
-        position="top-left"
-        reverseOrder={false}
-      />
-          {children}</body>
+        )}>
+          <Toaster
+            position="top-left"
+            reverseOrder={false}
+          />
+          {children}
+      </body>
     </html>
   );
 }
