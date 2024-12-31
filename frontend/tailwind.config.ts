@@ -18,6 +18,10 @@ const config = {
       },
     },
     extend: {
+      blur: {
+        custom:"200px",
+        small:"120px"
+      },
       colors: {
         customDark:"#111b21",
         border: "hsl(var(--border))",

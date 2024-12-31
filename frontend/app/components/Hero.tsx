@@ -18,7 +18,7 @@ export function HeroSection() {
 
     return (
         <div>
-            <div className="h-[56%]  text-white flex flex-col justify-around items-center ">
+            <div className="h-[56%] relative z-10 text-white flex flex-col justify-around items-center ">
                 <div className="text-center tracking-tight md:text-6xl text-4xl font-bold" style={{ textShadow: "0px 0px 10px  rgba(255, 255, 255, 0.3)" }}>
                     <span className="">Your everyday chat app,</span>
                     <br /> Now with easy <span style={{ textShadow: "0 0 0 rgba(0, 0 , 0, 0 )" }} className="bg-gradient-to-r bg-gradient-to-r from-[#503dff] via-[#27c0fa] to-[#99f3d2] bg-clip-text text-transparent ">Solana</span> transfers
@@ -27,8 +27,9 @@ export function HeroSection() {
                     Chat, send money, and track Solana transactions seamlessly with unique usernames.
                 </div>
             </div>
-            <div onClick={handleClick} className="flex cursor-pointer justify-center items-center ,d:mt-10 mt-20">
+            <div className="relative z-10 flex  justify-center items-center ,d:mt-10 mt-20">
                 <Button 
+                    onClick={handleClick}
                     style={{
                         boxShadow: `
                 -7px 0 15px 0.5px rgba(80, 61, 255, 0.4), 
@@ -41,7 +42,7 @@ export function HeroSection() {
                     Get Started
                 </Button>
             </div>
-            <div className=" md:mt-4 mt-20 mb-2 flex h-28 justify-center">
+            <div className=" md:mt-4 mt-20 mb-2 flex h-28 justify-center relative z-10">
                 <div className="flex justify-between p-2 h-full  w-2/3">
                     <motion.div className="relative " style={{ transform: "rotateY(-9deg)" }} initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { opacity: { duration: 2 }, ease: "easeInOut", } }}>
                         <motion.div initial={{ y: 0 }} animate={{ y: [-10, 0, -10], transition: { duration: 2, ease: "easeInOut", repeat: Infinity } }} className="absolute h-20 w-20 rounded-full bg-white/10 blur-lg z-0">
@@ -61,8 +62,8 @@ export function HeroSection() {
                     </motion.div>
                 </div>
             </div>
-            <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1, transition: { duration: 0.7, ease: "easeInOut" } }} className="w-full p-4 pb-1 relative flex justify-center items-center ">
-                <div className="absolute bg-[#453BD0] w-full h-full rounded-full bottom-0" style={{ filter: "blur(400px)" }}>
+            <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1, transition: { duration: 0.7, ease: "easeInOut" } }} className="w-full p-4 pb-3 relative flex justify-center items-center ">
+                <div className="absolute bg-gradient-to-b from-[#453BD0] to-[#090A0B] to-[80%]  md:to-[40%] h-[10rem] w-[10rem] blur-small md:w-full md:blur-custom md:h-full rounded-full bottom-0">
 
                 </div>
                 <div className="absolute w-[78%] h-[96%] bg-gradient-to-b from-transparent  to-[#0c0f14] to-[90%]  rounded-2xl  z-20">
