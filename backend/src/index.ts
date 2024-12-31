@@ -14,78 +14,78 @@ dotenv.config()
 const app = express()
 
 app.use(cors({
-    origin:"*"
+    origin: "*"
 }))
 app.use(express.json())
 
 
-app.use("/api/user",loginRouter)
+app.use("/api/user", loginRouter)
 
 
-async function main(){
-    
+async function main() {
+
     await RoomManager.getInstance().initializeDb()
 
-    const httpServer = app.listen(8080) 
+    const httpServer = app.listen(8080)
 
-    const wss = new WebSocketServer({server:httpServer})
+    const wss = new WebSocketServer({ server: httpServer })
 
-    wss.on("connection",(ws)=>{
-        ws.on("error",()=>{
+    wss.on("connection", (ws) => {
+        ws.on("error", () => {
             console.log("somthing went wrong")
             ws.send("asdasd")
         })
 
-        ws.on('message',(data:any)=>{
-            try{
+        ws.on('message', (data: any) => {
+            try {
                 const message = JSON.parse(data)
-            const parsedResult = firstOnline.safeParse(message)
-            if (!parsedResult.success) {
-                return
-            }
-                const userId =  jwt.verify(message.token,process.env.JWT_SECRET||"secret")
-                if(!userId){
+                const parsedResult = firstOnline.safeParse(message)
+                if (!parsedResult.success) {
+                    return
+                }
+                const userId = jwt.verify(message.token, process.env.JWT_SECRET || "secret")
+                if (!userId) {
                     ws.send("galat hai")
                     return
-                    }
-                if (message.request==="online") { 
-                    RoomManager.getInstance().Online(userId.toString(),ws)
+                }
+                if (message.request === "online") {
+                    RoomManager.getInstance().Online(userId.toString(), ws)
 
                 }
-                else if (message.request==="sendMessage") {
-                    RoomManager.getInstance().sendMessage(userId.toString(),message.to,message.value)
+                else if (message.request === "sendMessage") {
+                    RoomManager.getInstance().sendMessage(userId.toString(), message.to, message.value)
                 }
-                else if (message.request==="giveMessage") {
-                    RoomManager.getInstance().exisitngMessage(message.roomId,userId.toString(),message.secondUser,ws)
-                }else if (message.request==="sendSolana") {
-                    RoomManager.getInstance().sendSol(message.from,message.to,userId.toString(),message.toUserId,message.value,message.amount,message.signature,message.roomId)
-                }else if (message.request==="searchUser") {
-                    if (userId.toString()===message.searchUserName) {
+                else if (message.request === "giveMessage") {
+                    RoomManager.getInstance().exisitngMessage(message.roomId, userId.toString(), message.secondUser, ws)
+                } else if (message.request === "sendSolana") {
+                    RoomManager.getInstance().sendSol(message.from, message.to, userId.toString(), message.toUserId, message.value, message.amount, message.signature, message.roomId)
+                } else if (message.request === "searchUser") {
+                    if (userId.toString() === message.searchUserName) {
                         return
                     }
-                    RoomManager.getInstance().findUser(userId.toString(),message.searchUserName)
-                }else if (message.request==="createRoom") {
-                    if (userId.toString()===message.to) {
-                    return 
+                    RoomManager.getInstance().findUser(userId.toString(), message.searchUserName)
+                } else if (message.request === "createRoom") {
+                    if (userId.toString() === message.to) {
+                        return
                     }
-                    RoomManager.getInstance().createRoom(userId.toString(),message.to)
+                    RoomManager.getInstance().createRoom(userId.toString(), message.to)
                 }
-                else{
+                else {
                     ws.send(JSON.stringify({
-                        type:"invalid",
-                        message:"not a valid request"
+                        type: "invalid",
+                        message: "not a valid request"
                     }))
-                }   
-            }catch(e:any){
+                }
+            } catch (e: any) {
                 ws.send(JSON.stringify({
-                    message:"hat bc"
+                    message: "hat bc"
                 }))
                 console.log(e)
             }
-            
+
         })
 
-        ws.on("close",()=>{
+        ws.on("close", () => {
             RoomManager.getInstance().offline(ws)
         })
     })

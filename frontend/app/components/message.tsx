@@ -1,7 +1,7 @@
 "use client"
 
 import { backend, index } from "@/store/atom";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef} from "react";
 import { useRecoilValue } from "recoil";
 import SolanaCard from "./SolanaCard";
 
