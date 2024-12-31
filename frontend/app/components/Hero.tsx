@@ -63,7 +63,7 @@ export function HeroSection() {
                 </div>
             </div>
             <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1, transition: { duration: 0.7, ease: "easeInOut" } }} className="w-full p-4 pb-3 relative flex justify-center items-center ">
-                <div className="absolute bg-gradient-to-b from-[#453BD0] to-[#090A0B] to-[80%]  md:to-[40%] h-[10rem] w-[10rem] blur-small md:w-full md:blur-custom md:h-full rounded-full bottom-0">
+                <div className="absolute bg-gradient-to-b from-[#453BD0] to-[#090A0B] to-[80%]  md:to-[40%] h-[13rem] w-[13rem] blur-small md:w-full md:blur-custom md:h-full rounded-full bottom-0">
 
                 </div>
                 <div className="absolute w-[78%] h-[96%] bg-gradient-to-b from-transparent  to-[#0c0f14] to-[90%]  rounded-2xl  z-20">
