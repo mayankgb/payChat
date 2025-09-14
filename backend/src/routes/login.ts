@@ -31,6 +31,12 @@ loginRouter.get("/asdas", async (req, res) => {
     })
 })
 
+loginRouter.get("/test", async(req , res) => { 
+    res.json({
+        message: "everything is working fine"
+    })
+})
+
 loginRouter.post("/login", async (req, res) => {
 
     const body = req.body.userInput

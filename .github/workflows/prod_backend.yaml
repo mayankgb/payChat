@@ -1,0 +1,29 @@
+name: Backend Deployment
+
+on: 
+    push: 
+        branches: ["main"]
+        paths: ['backend/**']
+
+jobs: 
+    Deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: ssh into the server
+              uses: appleboy/ssh-action@v1
+              with: 
+                host: ${{ secrets.HOST }}
+                username: root
+                key: ${{ secrets.SSH_SECRETS }}
+                port: 22
+                script: |
+                  ls
+                  cd payChat
+                  git pull
+                  cd payChat/backend
+                  npm install 
+                  pm2 restart 
+
+
+    
