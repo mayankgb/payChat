@@ -2,7 +2,7 @@ import { Kafka, Producer } from "kafkajs"
 import { Message, Room, User } from "./rooms"
 import { WebSocket } from "ws"
 import { LAMPORTS_PER_SOL } from "@solana/web3.js"
-import { PrismaClient, } from "@prisma/client"
+import { PrismaClient  } from "@prisma/client"
 import { Redis } from "ioredis"
 import fs from "fs"
 import dotenv from "dotenv"
@@ -25,7 +25,7 @@ export class RoomManager {
         this.redis = new Redis({
             host: process.env.BROKERS,
             password: process.env.PASSWORD,
-            port: 15268,
+            port: 14736,
             db: 0
         })
         this.prisma = new PrismaClient()
