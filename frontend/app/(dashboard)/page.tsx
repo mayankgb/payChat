@@ -20,7 +20,7 @@ export default function Home() {
             return
         }
 
-        const socket = new WebSocket("wss://paychat-2.onrender.com")
+        const socket = new WebSocket("wss://paychatbackend.alignstacks.com")
 
         socket.onopen = () => {
             console.log("connected")
