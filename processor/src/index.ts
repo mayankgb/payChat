@@ -24,7 +24,7 @@ const prisma = new PrismaClient();
 const redis = new Redis({
     host: process.env.BROKERS,
     password: process.env.PASSWORD,
-    port: 15268,
+    port: 14736,
     db: 0,
 });
 
