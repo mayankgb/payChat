@@ -23,7 +23,7 @@ jobs:
                   git pull
                   cd payChat/backend
                   npm install 
-                  pm2 restart 
+                  pm2 restart paychat-backend
 
 
     
