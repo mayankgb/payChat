@@ -21,7 +21,7 @@ jobs:
                   ls
                   cd payChat
                   git pull
-                  cd payChat/backend
+                  cd backend
                   npm install 
                   pm2 restart paychat-backend
 

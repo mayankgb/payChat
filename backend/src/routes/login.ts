@@ -39,7 +39,6 @@ loginRouter.get("/test", async(req , res) => {
 
 loginRouter.post("/login", async (req, res) => {
     
-
     const body = req.body.userInput
     const parsedResult = loginInput.safeParse(body)
 
